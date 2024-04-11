@@ -83,4 +83,25 @@ const authUser = async (req,res,next) =>{
     // }
 }
 
-module.exports={registerUser, authUser};
+// /api/users?search=niyati
+const allUsers = async (req,res) =>{
+    //to take query from api
+    const keyword = req.query.search
+     ? {
+    //    $or : [ //searching inside name or email, case insensitive
+    //     { name: { $regex: req.query.search, $options: "i"}},
+    //    {email: { $regex: req.query.search, $options: "i"}},
+    //    ],
+
+    // the $or operator is removed from the keyword object, so the User.find method will query the database for all users, regardless of the search criteria.
+    }:{};
+    console.log(req);
+    // console.log(keyword);
+    //query the database,
+    //find from serach except the user logged in, check user
+    const users = await User.find(keyword).find({ _id: { $ne: req.user._id } });
+    console.log(users);
+    res.send(users);
+}
+
+module.exports={registerUser, authUser, allUsers};
