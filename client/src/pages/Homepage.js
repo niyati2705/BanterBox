@@ -1,4 +1,4 @@
-import React from 'react'
+import {useEffect} from 'react'
 import {  Box,
   Container,
   Tab,
@@ -8,10 +8,26 @@ import {  Box,
   Tabs,
   Text,} from '@chakra-ui/react'
 
+import { useHistory} from 'react-router-dom'
+
 import Signin from '../components/Authentication/Signin'
 import Signup from '../components/Authentication/Signup'
+
 const Homepage = () => {
+
+  const history = useHistory();
+ 
+
+  useEffect(()=>{
+      const user = JSON.parse(localStorage.getItem("userInfo"));
+
+      //if user logged in
+      if(user){
+          history.push('/chats');
+      }
+  },[history]); //run again whenever history changes
   return (
+
     <Container maxW='xl' centerContent> 
       <Box d='flex' justifyContent='center' p={2} bg={"white"} color="black"m='40px 0 15px 0' borderRadius="lg" borderWidth="1px"> 
 

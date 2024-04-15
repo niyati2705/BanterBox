@@ -41,7 +41,7 @@ const registerUser = async (req,res,next) =>{
             _id: user._id,
             name: user.name,
             email: user.email,
-            pic: user.pic,
+            pic: user.profilePic,
             //send token after successful registration
             token: generateToken(user._id),
         })
@@ -74,7 +74,7 @@ const authUser = async (req,res,next) =>{
             _id: user._id,
             name: user.name,
             email: user.email,
-            pic: user.pic,
+            pic: user.profilePic,
             //send token after successful registration
             token: generateToken(user._id),
          })

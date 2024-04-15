@@ -13,8 +13,9 @@ const Signup = () => {
     const [email, setEmail] = useState();
     const [password, setPassword] = useState();
     const [confirmPassword, setConfirmPassword] = useState();
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false);
     const [pic, setPic] = useState();
+    const [picLoading, setPicLoading] = useState(false);
     const [show, setShow] = useState(false);
 
     const handleClick = () => setShow(!show);
@@ -23,7 +24,7 @@ const Signup = () => {
     const history = useHistory();
 
     const postDetails = (pics) => {
-      setLoading(true);
+      setPicLoading(true);
       if(pics === undefined) {
         toast({
           title: "Select an image",
@@ -46,7 +47,7 @@ const Signup = () => {
         }).then((res) => res.json())
         .then((data)=>{
             setPic((data.url).toString());
-            setLoading(false);
+            setPicLoading(false);
         })    
        }else{
         toast({
@@ -56,13 +57,13 @@ const Signup = () => {
           isClosable: true,
           position: "bottom",
         });
-        setLoading(false);
+        setPicLoading(false);
         return;
        }
     };
 
     const submitHandler = async () =>{
-      setLoading(true);
+      setPicLoading(true);
       if (!name || !email || !password || !confirmPassword) {
         toast({
           title: "Please Fill all the Feilds",
@@ -71,7 +72,7 @@ const Signup = () => {
           isClosable: true,
           position: "bottom",
         });
-        setLoading(false);
+        setPicLoading(false);
         return;
       }
       if (password !== confirmPassword) {
@@ -84,6 +85,8 @@ const Signup = () => {
         });
         return;
       }
+
+      console.log(name, email, password, pic);
 
       //make api request to store in database
       try{
@@ -107,7 +110,7 @@ const Signup = () => {
 
         localStorage.setItem("userInfo", JSON.stringify(data));
 
-        setLoading(false);
+        setPicLoading(false);
         history.push('/chats');
       }catch(error){
         toast({
@@ -118,7 +121,7 @@ const Signup = () => {
           isClosable: true,
           position: "bottom",
         });
-        setLoading(false);
+        setPicLoading(false);
       
       }
     }
@@ -188,7 +191,7 @@ const Signup = () => {
         width="100%"
         style={{ marginTop: 15 }}
         onClick={submitHandler}
-       isloading={loading}
+       isloading={picLoading}
       >
         Sign Up
       </Button>

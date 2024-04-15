@@ -1,29 +1,40 @@
-import React, { useState } from 'react';
-import axios from 'axios';
-import { useEffect } from 'react';
+import {ChatState} from "../context/ChatProvider";
+import SideDrawer from "../components/Miscellaneous/SideDrawer";
+import Chats from "../components/Chats";
+import Chatbox from "../components/ChatBox";
+import { useState } from "react";
 
+import { Box } from "@chakra-ui/layout";
 
 const Chatpage = () => {
 
-  const[chats, setChats] = useState([]);
+  const {user} = ChatState();
+  const [fetchAgain, setFetchAgain] = useState(false)
+  console.log(user);
 
-  //api call to render data from backend to frontend
-  const fetchChats = async () => {
-    //fetch api
-    //desrtucture data from api
-    const {data} = await axios.get("/api/chat");
-    setChats(data);
-  };
+  // const[chats, setChats] = useState([]);
 
-  useEffect(() => {
-    fetchChats();
-  },[])
+  // //api call to render data from backend to frontend
+  // const fetchChats = async () => {
+  //   //fetch api
+  //   //desrtucture data from api
+  //   const {data} = await axios.get("/api/chat");
+  //   setChats(data);
+  // };
+
+  // useEffect(() => {
+  //   fetchChats();
+  // },[])
 
   return (
-    <div>
-      {chats.map((chat)=>(
-        <div key={chat._id}>{chat.chatName}</div>
-      ))}
+    <div style={{ width: "100%" }}>
+
+    {user && <SideDrawer />}
+    <Box display="flex" justifyContent="space-between" w="100%" h="91.5vh" p="10px">
+       {user && <Chats fetchAgain={fetchAgain}/>} 
+     {user && 
+        <Chatbox fetchAgain={fetchAgain} setFetchAgain = {setFetchAgain}/>}  
+    </Box>
   </div>
   )
 }
