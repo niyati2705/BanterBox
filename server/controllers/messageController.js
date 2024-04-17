@@ -1,4 +1,3 @@
-const  {createError}  = require ("../utils/error");
 const Message = require("../models/messageModel");
 const User = require("../models/userModel");
 const Chat = require("../models/chatModel");
@@ -8,8 +7,11 @@ const Chat = require("../models/chatModel");
 const sendMessage = async (req,res)=>{
     //chatId, message, sender
     const {chatId, content} = req.body;
+    const messageType = req.body.messageType;
+    console.log(req.body);
+    console.log(req.body.messageType);
 
-    if(!content || !chatId) {
+    if( !chatId || !messageType) {
         console.log("Invalid data passed into request");
         return res.sendStatus(400);
     }
@@ -17,10 +19,20 @@ const sendMessage = async (req,res)=>{
     //create a new messgage
     var newMessage = {
         sender: req.user._id, 
-        content: content,
+        // content: content,
         chat: chatId,
+        messageType: messageType,
     };
-    
+
+    if (messageType === "text") {
+        // If text message, set content to the provided text
+        newMessage.content = content;
+      } else if (messageType === "meme") {
+        // If meme message, set content to the base64-encoded image data
+        newMessage.content = content;
+      }
+
+
     try {
         var message = await Message.create(newMessage);
         //populating instance of mongoose class
