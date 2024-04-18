@@ -1,7 +1,6 @@
 export const getSender=(loggedUser, users)=>{
     //check users array, return without loggedin user
     return users[0]._id === loggedUser._id ? users[1].name : users[0].name
-
 };
 
 //full sender object

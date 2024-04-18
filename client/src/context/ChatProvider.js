@@ -7,16 +7,14 @@ const ChatProvider = ({children}) =>{
 
     const history = useHistory()
     const[user, setUser] = useState();
-    const[selectedChat, setSelectedChat] = useState();
-    const [chats, setChats] = useState([]);
+    // const[selectedChat, setSelectedChat] = useState();
+    // const [chats, setChats] = useState([]);
 
     //check if user is logged in
 
     useEffect(()=>{
         const userInfo = JSON.parse(localStorage.getItem("userInfo"));
         // setUser(userInfo);
-
-        // console.log(userInfo);
 
         // //if user not logged in
         // if(!userInfo){
@@ -33,6 +31,9 @@ const ChatProvider = ({children}) =>{
   }
 
     },[history]); //run again whenever history changes
+
+    const[selectedChat, setSelectedChat] = useState();
+    const [chats, setChats] = useState([]);
 
     return(
         <ChatContext.Provider value={{user,setUser , selectedChat, setSelectedChat, chats, setChats}}>

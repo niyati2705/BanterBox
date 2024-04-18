@@ -7,7 +7,7 @@ const bcrypt = require('bcryptjs');
 //register user
 const registerUser = async (req,res,next) =>{
 
-    const{name, email, password, profilePic} = req.body;
+    const{name, email, password, pic} = req.body;
     //check if the user already exists
     if(!name || !email  || !password)
     return res.status(409).json({message:"Missing fields"}) 
@@ -30,7 +30,7 @@ const registerUser = async (req,res,next) =>{
         name,
         email,
         password,
-        profilePic,
+        pic,
     });
 
     // if(!user)
@@ -41,7 +41,7 @@ const registerUser = async (req,res,next) =>{
             _id: user._id,
             name: user.name,
             email: user.email,
-            pic: user.profilePic,
+            pic: user.pic,
             //send token after successful registration
             token: generateToken(user._id),
         })
@@ -74,7 +74,7 @@ const authUser = async (req,res,next) =>{
             _id: user._id,
             name: user.name,
             email: user.email,
-            pic: user.profilePic,
+            pic: user.pic,
             //send token after successful registration
             token: generateToken(user._id),
          })

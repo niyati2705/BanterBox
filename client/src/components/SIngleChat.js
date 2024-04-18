@@ -71,17 +71,17 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           messageType: "text",
         };
 
-        console.log(requestData);
+        // console.log(requestData);
         // console.log(memeUrl);
         //send the message
         const { data } = await axios.post("/api/message", requestData, config);
         // content: newMessage,
         // chatId: selectedChat._id,
 
-        console.log(data);
+        // console.log(data);
 
         socket.emit("new message", data);
-        // setNewMessage("");
+        setNewMessage("");
         //append new message to existing messages of that chat
         setMessages([...messages, data]);
       } catch (error) {
@@ -154,7 +154,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         config
       );
 
-      console.log(messages);
+      // console.log(messages);
       //set messages
       setMessages(data);
       setLoading(false);
@@ -208,39 +208,35 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const handleSendMeme = async (memeUrl) => {
     if (memeUrl) {
       try {
-          // Convert meme image to base64 string
-      // const base64Image = await getBase64Image(memeUrl);
+        // Convert meme image to base64 string
+        // const base64Image = await getBase64Image(memeUrl);
         // Fetch the image from the URL
-      const response = await fetch(memeUrl);
-      const blob = await response.blob();
+        const response = await fetch(memeUrl);
+        const blob = await response.blob();
 
-      // console.log(blob);
-      // Convert the image blob to base64-encoded data
-      const base64Image = await convertBlobToBase64(blob);
-   
-    
-  
+        // console.log(blob);
+        // Convert the image blob to base64-encoded data
+        const base64Image = await convertBlobToBase64(blob);
+
         const requestData = {
           content: base64Image, // Set content as empty since it's a meme
           chatId: selectedChat._id,
           messageType: "meme",
-          
         };
 
-          // console.log(base64Image);
-          const config = {
-            headers: {
-              // "Content-Type": "application/json",
-              Authorization: `Bearer ${user.token}`,
-            },
-          };
-  
+        // console.log(base64Image);
+        const config = {
+          headers: {
+            // "Content-Type": "application/json",
+            Authorization: `Bearer ${user.token}`,
+          },
+        };
+
         // Send the meme URL to the server
         const { data } = await axios.post("/api/message", requestData, config);
         // Emit the new message event to socket
         socket.emit("new message", data);
         // Add the meme message to the messages state
-        console.log(memeUrl);
 
         setMessages([...messages, data]);
       } catch (error) {
@@ -258,22 +254,21 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   };
 
   // Function to convert blob to base64-encoded data
-const convertBlobToBase64 = (blob) => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.onload = () => {
-      resolve(reader.result.split(",")[1]); // Return base64 string without data URL prefix
-    };
-    reader.onerror = (error) => {
-      reject(error);
-    };
-    reader.readAsDataURL(blob);
-  });
-};
+  const convertBlobToBase64 = (blob) => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => {
+        resolve(reader.result.split(",")[1]); // Return base64 string without data URL prefix
+      };
+      reader.onerror = (error) => {
+        reject(error);
+      };
+      reader.readAsDataURL(blob);
+    });
+  };
 
+  // console.log(memeUrl);
 
-  console.log(memeUrl);
- 
   return (
     <>
       {selectedChat ? (
@@ -289,7 +284,6 @@ const convertBlobToBase64 = (blob) => {
             justifyContent={{ base: "space-between" }}
             alignItems="center"
             color="black"
-            
           >
             <IconButton
               display={{ base: "flex", md: "none" }}
@@ -297,12 +291,12 @@ const convertBlobToBase64 = (blob) => {
               onClick={() => setSelectedChat("")}
             />
 
-            {!selectedChat.isGroupChat ? (
+            {selectedChat && !selectedChat.isGroupChat && selectedChat.users ? (
               <>
                 {getSender(user, selectedChat.users)}
-                <ProfileModal user={getSenderFull(user, selectedChat.users)} />  
+                <ProfileModal user={getSenderFull(user, selectedChat.users)} />
               </>
-            ) : (
+            ) : selectedChat ? (
               <>
                 {selectedChat.chatName.toUpperCase()}
                 <UpdateGroupChatModal
@@ -311,6 +305,8 @@ const convertBlobToBase64 = (blob) => {
                   setFetchAgain={setFetchAgain}
                 />
               </>
+            ) : (
+              <div>Loading...</div> //  when selectedChat is not available yet
             )}
           </Text>
 
@@ -337,7 +333,7 @@ const convertBlobToBase64 = (blob) => {
             ) : (
               <>
                 <div className="messages">
-                  <ScrollableChat messages={messages} memeUrl={memeUrl}/>
+                  <ScrollableChat messages={messages} memeUrl={memeUrl} />
                 </div>
               </>
             )}
@@ -345,15 +341,16 @@ const convertBlobToBase64 = (blob) => {
               <FormControl isRequired mt={3}>
                 {isTyping ? <div> Loading...</div> : <></>}
                 <Input
-                  variant="filled"
-                  bg="#E0E0E0"
+                  // variant="filled"
+
+                  bg="black"
                   placeholder="Enter a message.."
                   value={newMessage}
                   onChange={typingHandler}
                 />
               </FormControl>
 
-               {/*icon to open meme picker */}
+              {/*icon to open meme picker */}
               <PlusSquareIcon
                 onClick={handleToggleMemeGeneration}
                 className="smiley"
@@ -366,13 +363,12 @@ const convertBlobToBase64 = (blob) => {
                 Send
               </Button>
             </Flex>
-            
 
             {showMemeGeneration && (
-            <MemeGeneration
-              handleReceiveMemeUrl={handleReceiveMemeUrl}
-              handleSendMeme={handleSendMeme}
-            />
+              <MemeGeneration
+                handleReceiveMemeUrl={handleReceiveMemeUrl}
+                handleSendMeme={handleSendMeme}
+              />
             )}
           </Box>
         </>

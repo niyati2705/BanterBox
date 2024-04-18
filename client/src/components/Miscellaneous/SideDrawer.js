@@ -44,6 +44,7 @@ const SideDrawer = () => {
     const history = useHistory();
     const toast = useToast();
 
+    console.log(user);
     const {isOpen, onOpen, onClose} = useDisclosure();
 
     const handleLogout = () => {

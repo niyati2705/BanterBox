@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import {
   Box,
   Flex,
-  Text,
   Input,
-  FormControl,
   Button,
   Modal,
   ModalOverlay,
@@ -13,7 +11,6 @@ import {
   ModalCloseButton,
   ModalBody,
   ModalFooter,
-  useDisclosure,
   Image,
   useToast
 } from "@chakra-ui/react";
@@ -125,7 +122,7 @@ const MemeGeneration = ({handleReceiveMemeUrl, handleSendMeme}) => {
       }
     };
   useEffect(() => {
-    console.log(memeUrl);
+    // console.log(memeUrl);
     handleReceiveMemeUrl(memeUrl);
   }, [memeUrl]);
 
