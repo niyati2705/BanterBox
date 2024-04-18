@@ -132,9 +132,9 @@ const SideDrawer = () => {
     p="5px 10px 5px 10px"
     borderWidth="5px"
     >
-      <Tooltip label="Search Users to chat" hasArrow placement="bottom-end">
-          <Button variant="ghost" onClick ={onOpen}>
-            <Text d={{ base: "none", md: "flex" }} px={2} color="white" bg="black">
+      <Tooltip variant="ghost" label="Search Users to chat" hasArrow placement="bottom-end">
+          <Button onClick ={onOpen}>
+            <Text d={{ base: "none", md: "flex" }} px={2}>
               Search User
             </Text>
           </Button>
@@ -174,13 +174,13 @@ const SideDrawer = () => {
     <Drawer placement="left" onClose={onClose} isOpen ={isOpen}>
       <DrawerOverlay/>
       <DrawerContent>
-        <DrawerHeader borderBottom="1px"> Search Users</DrawerHeader>
-        <DrawerBody>
+        <DrawerHeader borderBottom="1px" bg="darkgrey"> Search Users</DrawerHeader>
+        <DrawerBody bg="black">
           <Box display="flex" pb={2}>
               <Input
                 placeholder="Search by name or email"
                 mr={2}
-                value={search}
+                value={search} color="white"
                 onChange={(e) => setSearch(e.target.value)}
               />
               <Button  onClick={handleSearch}>Go</Button>

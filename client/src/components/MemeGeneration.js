@@ -89,6 +89,7 @@ const MemeGeneration = ({handleReceiveMemeUrl, handleSendMeme}) => {
         await handleSendMeme(cloudinaryResponse.secure_url);
         
         // Close the modal or reset the state if needed
+        
         handleCloseModal();
       } catch (error) {
         console.error("Error generating meme:", error);
@@ -159,7 +160,9 @@ const MemeGeneration = ({handleReceiveMemeUrl, handleSendMeme}) => {
             ))}
 
           {selectedTemplate && (
-            <Modal isOpen={isOpen} onClose={handleCloseModal}>
+            <Modal isOpen={isOpen}
+             onClose={handleCloseModal}
+             >
               <ModalOverlay />
               <ModalContent>
                 {memeUrl ? ( 
@@ -168,6 +171,7 @@ const MemeGeneration = ({handleReceiveMemeUrl, handleSendMeme}) => {
                     <ModalCloseButton />
                     <ModalBody>
                       <Image src={memeUrl} alt="custom meme" />
+                     
                     </ModalBody>
                     <ModalFooter>
                       {/* Sene meme button */}

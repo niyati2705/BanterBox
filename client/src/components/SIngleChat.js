@@ -289,6 +289,7 @@ const convertBlobToBase64 = (blob) => {
             justifyContent={{ base: "space-between" }}
             alignItems="center"
             color="black"
+            
           >
             <IconButton
               display={{ base: "flex", md: "none" }}
@@ -299,7 +300,7 @@ const convertBlobToBase64 = (blob) => {
             {!selectedChat.isGroupChat ? (
               <>
                 {getSender(user, selectedChat.users)}
-                <ProfileModal user={getSenderFull(user, selectedChat.users)} />
+                <ProfileModal user={getSenderFull(user, selectedChat.users)} />  
               </>
             ) : (
               <>
@@ -361,7 +362,7 @@ const convertBlobToBase64 = (blob) => {
                 color="grey"
               />
               {/* Send Text Message button */}
-              <Button colorScheme="blue" onClick={sendMessage} ml={2}>
+              <Button onClick={sendMessage} ml={2}>
                 Send
               </Button>
             </Flex>
