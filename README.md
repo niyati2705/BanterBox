@@ -1,6 +1,6 @@
 # Banter-Box
-## Where banter meets innovation, sparking laughter and connection!
-A real time chat application  where users can send one on one messages, grouo messages and send a custom meme!
+### Where banter meets innovation, sparking laughter and connection!
+A real time chat application  where users can send one on one messages, group messages and send a CUSTOM MEME!
 
 ## Features
 Real-time Messaging: Instant messaging functionality for seamless communication.
