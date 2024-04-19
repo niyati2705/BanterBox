@@ -19,7 +19,6 @@ Frontend: React Socket.IO Chakra UI
 Backend: Node.js Express MongoDB
 
 Others: Cloudinary (image storage and processing) 
-
         ImgFlip API (Genration of custom meme)
 
 ## Demo video
