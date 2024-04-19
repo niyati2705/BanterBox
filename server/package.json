@@ -4,10 +4,16 @@
   "description": "",
   "main": "server.js",
   "scripts": {
-    "start": "nodemon server.js",
+ 
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build-client": "cd ../client && npm install && npm run build",
-    "build": "npm run build-client && nodemon server.js"
+    "install:server": "cd server && npm install",
+    "install:client": "cd client && npm install",
+    "build:server": "echo 'No build step for server'",
+    "build:client": "cd client && npm run build",
+    "install": "npm run install:server && npm run install:client",
+    "build": "npm run build:server && npm run build:client",
+    "start": "cd client && npm start"
+    
   },
   "keywords": [],
   "author": "",
