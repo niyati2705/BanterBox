@@ -6,6 +6,7 @@ const userRoutes = require('./routes/userRoutes');
 const chatRoutes = require('./routes/chatRoutes');
 const messageRoutes = require('./routes/messageRoutes');
 const cors = require('cors');
+const path = require('path');
 
 const app = express();
 dotenv.config();
@@ -15,26 +16,25 @@ app.use(express.json());
 
 app.use(cors());
 
-// app.get( '/', (req, res) => {
-//     res.send("Hello World");
-// })
-
-// app.get('/api/chat', (req,res)=>{
-//     res.send(chats);
-//     console.log(res);
-// })
-
-// app.get('/api/chats/:id',(req,res)=>{
-//     // console.log(req);
-//     // console.log(req.params.id);
-//     const singleChat = chats.find((c) => c._id === req.params._id);
-//     res.send(singleChat);
-// })
 
 app.use('/api/user', userRoutes)
 app.use('/api/chat', chatRoutes)
 app.use('/api/message', messageRoutes)
 
+//deployment
+const __dirname1 = path.resolve();
+if(process.env.NODE_ENV==='production'){
+
+    app.use(express.static(path.join(__dirname1, '../client/build')));
+
+    app.get("*",(req,res) => {
+        res.sendFile(path.resolve(__dirname1, "client", "build", "index.html"));
+    });
+}else{
+    app.get("/", (req,res) => {
+        res.send("API running successfully");
+    })
+}
 
 const PORT = process.env.PORT || 5000;
 const server = app.listen(5000,()=>{
