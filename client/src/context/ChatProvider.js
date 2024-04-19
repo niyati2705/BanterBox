@@ -7,8 +7,7 @@ const ChatProvider = ({children}) =>{
 
     const history = useHistory()
     const[user, setUser] = useState();
-    // const[selectedChat, setSelectedChat] = useState();
-    // const [chats, setChats] = useState([]);
+    const [notification, setNotification] = useState([]);
 
     //check if user is logged in
 
@@ -31,12 +30,12 @@ const ChatProvider = ({children}) =>{
   }
 
     },[history]); //run again whenever history changes
-
     const[selectedChat, setSelectedChat] = useState();
     const [chats, setChats] = useState([]);
+  
 
     return(
-        <ChatContext.Provider value={{user,setUser , selectedChat, setSelectedChat, chats, setChats}}>
+        <ChatContext.Provider value={{user,setUser , selectedChat, setSelectedChat, chats, setChats, notification, setNotification}}>
             {children}
         </ChatContext.Provider>
 

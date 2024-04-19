@@ -2,29 +2,14 @@ import {ChatState} from "../context/ChatProvider";
 import SideDrawer from "../components/Miscellaneous/SideDrawer";
 import Chats from "../components/Chats";
 import Chatbox from "../components/ChatBox";
-import { useState } from "react";
+import { useState} from "react";
 
 import { Box } from "@chakra-ui/layout";
 
 const Chatpage = () => {
-
-  const {user} = ChatState();
-  const [fetchAgain, setFetchAgain] = useState(false)
-  console.log(user);
-
-  // const[chats, setChats] = useState([]);
-
-  // //api call to render data from backend to frontend
-  // const fetchChats = async () => {
-  //   //fetch api
-  //   //desrtucture data from api
-  //   const {data} = await axios.get("/api/chat");
-  //   setChats(data);
-  // };
-
-  // useEffect(() => {
-  //   fetchChats();
-  // },[])
+ 
+  const [fetchAgain, setFetchAgain] = useState(false);
+  const { user } = ChatState();
 
   return (
     <div style={{ width: "100%" }}>
@@ -39,4 +24,4 @@ const Chatpage = () => {
   )
 }
 
-export default Chatpage
+export default Chatpage;

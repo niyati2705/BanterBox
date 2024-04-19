@@ -2,7 +2,7 @@ import { Box, Text } from "@chakra-ui/layout";
 import { Input } from "@chakra-ui/input";
 import {Button}  from "@chakra-ui/button";
 import {Tooltip} from "@chakra-ui/tooltip";
-import { BellIcon, ChevronDownIcon } from "@chakra-ui/icons";
+import { BellIcon, ChevronDownIcon,  InfoIcon } from "@chakra-ui/icons";
 import {
     Menu,
     MenuButton,
@@ -10,6 +10,7 @@ import {
     MenuItem,
     MenuList,
   } from "@chakra-ui/menu";
+  import { IconButton } from "@chakra-ui/react";
 import {
     Drawer,
     DrawerBody,
@@ -19,7 +20,10 @@ import {
 } from "@chakra-ui/modal";
 import { Avatar } from "@chakra-ui/avatar";
 import { Spinner } from "@chakra-ui/spinner";
-import {useDisclosure} from "@chakra-ui/react";
+import {useDisclosure,Alert,
+  AlertIcon,
+  AlertTitle,
+  AlertDescription,} from "@chakra-ui/react";
 import { useToast } from "@chakra-ui/toast";
 
 import ProfileModal from "./ProfileModal";
@@ -30,8 +34,9 @@ import axios from "axios";
 import { ChatState } from "../../context/ChatProvider";
 import ChatLoading from "../ChatLoading";
 import UserListItem from "../userAvatar/UserListItem";
-// import { getSender } from "../../config/ChatLogics";
-
+import { getSender } from "../../config/ChatLogics";
+import { store } from 'react-notifications-component';
+import 'react-notifications-component/dist/theme.css';
 
 const SideDrawer = () => {
 
@@ -40,7 +45,7 @@ const SideDrawer = () => {
     const [loading, setLoading] = useState(false);
     const [loadingChat, setLoadingChat] = useState(false);
 
-    const {user, setSelectedChat, chats, setChats} = ChatState();
+    const {user, setSelectedChat, chats, setChats, notification, setNotification} = ChatState();
     const history = useHistory();
     const toast = useToast();
 
@@ -119,7 +124,6 @@ const SideDrawer = () => {
         });
       }
     }
-    
 
     return (
       //header
@@ -144,13 +148,41 @@ const SideDrawer = () => {
         <Text fontSize="2xl" fontFamily="Work sans">
             BanterBox
         </Text>
-
         <div>
+  
             <Menu>
+                {/* Notification */}
                 <MenuButton p={1}>
-                    <BellIcon fontSize="2xl" m={1}/>
+                  
+                    {notification.length>0 && <BellIcon fontSize="2xl" m={1} color="red"/>
+                  }
+
                 </MenuButton>
-                {/* <MenuList></MenuList> */}
+                <MenuList bg="black" pl={2}>
+     
+                  {notification.map((notif)=>(
+                    <MenuItem
+                    bg="black"
+                    color="lightgreen"
+                    key={notif._id}
+                    onClick={() => {
+                      setSelectedChat(notif.chat);
+                      setNotification(notification.filter((n) => n !== notif)); } 
+                    } 
+                    >  
+                    {notif.chat.isGroupChat ? (
+                      <>
+                        <span>New message in {notif.chat.chatName}</span>
+                        displayNewMessageToast();
+                        </>
+                    ) : (
+                      <>
+                        <span>New message from {getSender(user, notif.chat.users)}</span>
+                        </>
+                    )}
+                  </MenuItem>
+                  ))}
+                </MenuList>
             </Menu>
 
             <Menu>

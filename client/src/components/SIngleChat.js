@@ -36,7 +36,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [isTyping, setIsTyping] = useState(false);
   const [showMemeGeneration, setShowMemeGeneration] = useState(false);
 
-  const { user, selectedChat, setSelectedChat } = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } = ChatState();
   const toast = useToast();
   const newDate = () => {
     return new Date();
@@ -97,22 +97,6 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
     }
   };
 
-  //receive message from socket server
-  //wont run just one time, update every time state updates
-  // useEffect(()=>{
-  //   socket.on('message received', (newMessageRecieved) => {
-  //     //if none of the chat is selected or doesnt match the current selected chat
-  //     if(!selectedChatCompare || selectedChatCompare._id !== newMessageRecieved.chat._id) {
-  //        //give notification
-  //     }
-  //     else {
-  //       //add to list of messages
-  //       setMessages([...messages, newMessageRecieved]);
-  //     }
-
-  //   })
-  // })
-
   //start socket.io
   useEffect(() => {
     socket = io(ENDPOINT);
@@ -130,7 +114,12 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
         !selectedChatCompare ||
         selectedChatCompare._id !== newMessageRecieved.chat._id
       ) {
-        //give notification
+        //notification
+        if(!notification.includes(newMessageRecieved)) //if notif does not include incoming message
+        { //add new notification with rest
+          setNotification([newMessageRecieved, ...notification]);
+          setFetchAgain(!fetchAgain);
+        }
       } else {
         //add to list of messages
         setMessages([...messages, newMessageRecieved]);
@@ -178,6 +167,8 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
 
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
+
+  // console.log(notification);
 
   //typing indicator
   const typingHandler = (e) => {
@@ -232,7 +223,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
           },
         };
 
-        // Send the meme URL to the server
+        // Send the meme URL to the servxer
         const { data } = await axios.post("/api/message", requestData, config);
         // Emit the new message event to socket
         socket.emit("new message", data);

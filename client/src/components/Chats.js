@@ -16,12 +16,12 @@ import GroupChatModal from './Miscellaneous/GroupChatModal';
 //fetch all chats for user using api
 const Chats = ({fetchAgain}) => {
 
+  //local state
+  const [loggedUser, setLoggedUser] = useState();
   //import all of the states from context
   const{selectedChat, setSelectedChat, user, chats, setChats} = ChatState();
 
-  //local state
-  const [loggedUser, setLoggedUser] = useState();
-
+  
   const toast = useToast();
 
   const fetchChats = async () => {
@@ -54,12 +54,11 @@ const Chats = ({fetchAgain}) => {
   useEffect(() => {
     setLoggedUser(JSON.parse(localStorage.getItem("userInfo")));
     fetchChats();
-    // eslint-disable-next-line
   }, 
   [fetchAgain]
 );
 
-  return (
+    return ( 
    <Box  display={{ base: selectedChat ? "none" : "flex", md: "flex" }}
    flexDir="column"
    alignItems="center"
@@ -101,7 +100,7 @@ const Chats = ({fetchAgain}) => {
         borderRadius="lg"
         overflowY="hidden">
 
-          {chats? (
+          {chats ? (
             <Stack overflowY='scroll'>
                 {chats.map((chat)=>(
                   <Box onClick={() => setSelectedChat(chat)}
@@ -118,7 +117,7 @@ const Chats = ({fetchAgain}) => {
                     {/* sender name on the chat list if single */}
                 
                     {!chat.isGroupChat
-                    ? getSender(loggedUser, chat.users)
+                    ? getSender(user, chat.users)
                     : chat.chatName}
                   </Text>
                   </Box>
@@ -126,13 +125,18 @@ const Chats = ({fetchAgain}) => {
             </Stack>
           ) :(
             <ChatLoading/>
+            // <></>
           )}
 
        </Box>
    </Box>
+    
+  );
+  
+     
 
    
-  )
+  
 }
 
 export default Chats
