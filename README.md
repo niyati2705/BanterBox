@@ -4,14 +4,20 @@ A real time chat application  where users can send one on one messages, group me
 
 ## Features
 Real-time Messaging: Instant messaging functionality for seamless communication.
+
 Meme Generation: Ability to generate and send memes within the chat.
+
 User Authentication: Secure user authentication and authorization.
+
 Responsive Design: User-friendly interface compatible with various devices.
+
 Real Time Notifcation: View your notification for a new message and be redirected to the chat.
 
 ## Technologies Used
 Frontend: React Socket.IO Chakra UI
+
 Backend: Node.js Express MongoDB
+
 Others: Cloudinary (image storage and processing) 
         ImgFlip API (Genration of custom meme)
 
