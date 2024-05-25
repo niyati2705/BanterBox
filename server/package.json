@@ -6,17 +6,12 @@
   "scripts": {
  
     "test": "echo \"Error: no test specified\" && exit 1",
-    "install:server": "cd server && npm install",
-    "install:client": "cd client && npm install",
-    "build:server": "echo 'No build step for server'",
-    "build:client": "cd client && npm run build",
-    "install": "npm run install:server && npm run install:client",
-    "build": "npm run build:server && npm run build:client",
-    "start": "cd client && npm start"
+   "start": "node server/server.js",
+   "build": "npm install --legacy-peer-deps && npm install --legacy-peer-deps --prefix client && npm run build --prefix client"
     
   },
   "keywords": [],
-  "author": "",
+  "author": "Niyati",
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
